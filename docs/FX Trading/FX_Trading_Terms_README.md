@@ -43,7 +43,11 @@ flowchart LR
 ```
 
 ## 2. Block Session
-A **Block Session** enables execution of large FX tickets (blocks) in a single or negotiated trade.
+A **Block Session** enables execution of large FX tickets (blocks) in a single or negotiated trade. Is a trading session designed for executing large FX trades (blocks) in a single transaction rather than splitting them into smaller trades.  
+- Reduces market exposure by limiting the time a large order is in the market.
+- Typically negotiated directly with counterparties or via platforms that support block trade functionality.
+- May require pre-arranged credit limits and agreements due to trade size.
+- Used by institutions to manage large position adjustments or client flows.
 - Minimizes signaling and market impact.
 - Often requires pre-negotiated credit and custom workflows.
 
