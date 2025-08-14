@@ -1,8 +1,7 @@
-# Foreign Exchange (FX) Trading Terms — With Visual Workflows
+# Foreign Exchange (FX) Trading Terms — GitHub Compatible
 
-This document explains common FX trading terms used in institutional and electronic trading, and includes **Mermaid flow diagrams** to visualize typical workflows. You can preview these diagrams in any Markdown viewer that supports Mermaid (e.g., GitHub, VS Code with the Mermaid extension).
-
----
+This README explains common FX trading terms and includes **Mermaid** flow diagrams.  
+To maximize GitHub compatibility, diagrams use **simple shapes** and **no edge labels**.
 
 ## Contents
 - [Blotter Session](#1-blotter-session)
@@ -26,133 +25,123 @@ This document explains common FX trading terms used in institutional and electro
 ## 1. Blotter Session
 A **Blotter Session** is a trading view that shows executed, working, and canceled orders/trades for a trader or desk.
 - Real-time monitoring of fills, amendments, cancels.
-- Key fields: CCY pair, side, notional, rate, value date, counterparty, timestamps, status.
-- Hooks into middle/back office for confirmations, allocations, and reporting.
+- Key fields: pair, side, notional, rate, value date, counterparty, timestamps, status.
+- Integrates with middle/back office for confirmations, allocations, and reporting.
 
 ```mermaid
 flowchart LR
-  T(Trader) --|Executes order|--> OMS[Order Mgmt System]
-  OMS --|Sends|--> EMS[Execution Mgmt / Venues]
-  EMS --|Fills|--> OMS
-  OMS --|Updates|--> Blotter[Blotter UI]
-  Blotter --|Post-trade|--> BO[Middle/Back Office]
-  BO --|Confirms/Allocates|--> Blotter```
-
----
+  T(Trader) --> OMS[Order Management System]
+  OMS --> EMS[Execution Venues]
+  EMS --> OMS
+  OMS --> BLOTTER[Blotter UI]
+  BLOTTER --> BO[Middle Back Office]
+  BO --> BLOTTER
+```
 
 ## 2. Block Session
 A **Block Session** enables execution of large FX tickets (blocks) in a single or negotiated trade.
-- Minimizes signaling/market impact.
-- Often requires pre-negotiated credit and bespoke workflows.
+- Minimizes signaling and market impact.
+- Often requires pre-negotiated credit and custom workflows.
 
 ```mermaid
 flowchart LR
-  PM(Portfolio Manager) --|Large Instruction|--> Trader
-  Trader --|Initiates Block|--> Platform[Block-Capable Platform]
-  Platform --|Negotiates|--> LPs{Liquidity Providers}
-  LPs --|Block Quotes|--> Platform
-  Platform --|Execute Best|--> Settlement[STP to Middle/Back Office]```
-
----
+  PM(Portfolio Manager) --> TRADER(Trader)
+  TRADER --> PLATFORM[Block Trading Platform]
+  PLATFORM --> LPS{Liquidity Providers}
+  LPS --> PLATFORM
+  PLATFORM --> STP[Settlement and STP]
+```
 
 ## 3. Mix Blotter and Block
 A **hybrid session** combining a live blotter with block-trade capabilities in one interface.
-- Single pane of glass for day-to-day flow and occasional large tickets.
+- Single pane of glass for day-to-day flow and large tickets.
 
 ```mermaid
 flowchart LR
-  subgraph UI[Unified UI]
-    B1[Blotter View]
-    B2[Block Ticket Panel]
-  end
-  B1 <---> B2
-  UI --> OMS
-  OMS --> Venues[(Venues / LPs)]```
-
----
+  UI[Unified UI] --> BVIEW[Blotter View]
+  UI --> BPANEL[Block Ticket Panel]
+  BVIEW --> OMS
+  BPANEL --> OMS
+  OMS --> VENUES[(Venues)]
+```
 
 ## 4. Algo Trading
-**Algorithmic execution** uses strategies (e.g., TWAP, VWAP, POV/PoV, arrival price) to optimize execution quality and reduce impact.
+**Algorithmic execution** uses strategies (e.g., TWAP, VWAP, POV) to optimize execution quality and reduce impact.
 
 ```mermaid
 flowchart LR
-  Trader --|Parent Order|--> Algo[Algo Strategy (TWAP/VWAP/POV)]
-  Algo --|Slices|--> Child1((Child Order n))
-  Algo --|Slices|--> Child2((Child Order n+1))
-  Child1 --> Venues[(ECNs/LPs)]
-  Child2 --> Venues
-  Venues --|Fills|--> Algo
-  Algo --|Metrics/Slippage|--> Blotter```
-
-**Key controls**: participation cap, max spread, min quote size, time window, benchmark target.
-
----
+  TRADER --> PARENT[Parent Order]
+  PARENT --> ALGO[Algo Strategy]
+  ALGO --> C1((Child Order 1))
+  ALGO --> C2((Child Order 2))
+  C1 --> VENUES[(Venues)]
+  C2 --> VENUES
+  VENUES --> ALGO
+  ALGO --> BLOTTER[Blotter]
+```
 
 ## 5. Slice Trading
 **Slice Trading** breaks a large order into smaller pieces—manual or algo-driven.
-- Objective: reduce footprint and time risk.
 
 ```mermaid
 flowchart LR
-  Parent[Large Parent Order] --> Slice1[Slice #1]
-  Parent --> Slice2[Slice #2]
-  Parent --> Slice3[Slice #3]
-  Slice1 --> Venue1
-  Slice2 --> Venue2
-  Slice3 --> Venue3```
-
----
+  PARENT[Large Order] --> S1[Slice 1]
+  PARENT --> S2[Slice 2]
+  PARENT --> S3[Slice 3]
+  S1 --> V1[Venue 1]
+  S2 --> V2[Venue 2]
+  S3 --> V3[Venue 3]
+```
 
 ## 6. Allocation
-**Allocation** assigns portions of a filled trade to funds/accounts post-execution (or pre-trade via block allocation rules).
+**Allocation** assigns portions of a filled trade to funds/accounts post-execution or via pre-trade rules.
 
 ```mermaid
 flowchart LR
-  Fill[Executed Fill] --> AllocEngine[Allocation Engine]
-  AllocEngine --|Rules/Percentages|--> A1[Fund A]
-  AllocEngine --> A2[Fund B]
-  AllocEngine --> A3[Fund C]
-  A1 & A2 & A3 --> Books[Books & Records]
-  Books --> Confirms[Confirmations & Statements]```
-
----
+  FILL[Executed Fill] --> ENGINE[Allocation Engine]
+  ENGINE --> A[Fund A]
+  ENGINE --> B[Fund B]
+  ENGINE --> C[Fund C]
+  A --> BOOKS[Books and Records]
+  B --> BOOKS
+  C --> BOOKS
+  BOOKS --> CONF[Confirmations]
+```
 
 ## 7. Automated Order Router
-An **Automated Order Router (AOR)** routes orders to venues using rules and real-time signals to achieve best execution.
+An **Automated Order Router (AOR)** routes orders to venues using rules and real-time signals.
 
 ```mermaid
 flowchart LR
   OMS --> AOR[Automated Order Router]
-  AOR --|Check|--> Credit[Credit/Limit Check]
-  AOR --|Select|--> Policy[Routing Policy (Price, Liquidity, Latency)]
-  Policy --|Route|--> V1[(LP/ECN #1)]
-  Policy --|Route|--> V2[(LP/ECN #2)]
-  V1 & V2 --|Fills/Rejects|--> OMS```
-
----
+  AOR --> CREDIT[Credit Check]
+  AOR --> POLICY[Routing Policy]
+  POLICY --> V1[(LP 1)]
+  POLICY --> V2[(LP 2)]
+  V1 --> OMS
+  V2 --> OMS
+```
 
 ## 8. Basket Benchmark
-Execute a multi-currency **basket** against a **benchmark** (e.g., WM/Reuters 4pm).
+Execute a multi-currency **basket** against a **benchmark** (e.g., WM 4pm).
 
 ```mermaid
 flowchart LR
-  PM --> Basket[Basket Orders (Multi-CCY)]
-  Basket --> Benchmark[Benchmark Window/Method]
-  Benchmark --> Execution[Coordinated Execution]
-  Execution --> Attribution[Attribution vs Benchmark]```
-
----
+  PM --> BASKET[Basket Orders]
+  BASKET --> BENCH[Benchmark Window]
+  BENCH --> EXEC[Coordinated Execution]
+  EXEC --> ATTR[Attribution]
+```
 
 ## 9. Basket CP
-Execute a **basket** with a single **counterparty** to simplify ops and credit.
+Execute a **basket** with a single **counterparty** to simplify operations and credit.
 
 ```mermaid
 flowchart LR
-  Basket[Multi-CCY Basket] --> CP[Single Counterparty]
-  CP --> Trade[Net/Package Execution]
-  Trade --> Ops[Unified Settlement & Reporting]```
-
----
+  BASKET[Multi Currency Basket] --> CP[Single Counterparty]
+  CP --> TRADE[Package Trade]
+  TRADE --> OPS[Unified Settlement]
+```
 
 ## 10. Benchmark CP
 Execute with a designated **counterparty** who provides **benchmark-based** pricing (e.g., guaranteed fix).
@@ -160,86 +149,81 @@ Execute with a designated **counterparty** who provides **benchmark-based** pric
 ```mermaid
 flowchart LR
   PM --> CP[Benchmark Counterparty]
-  CP --> Fix[Fixing/Benchmark Price]
-  Fix --> Trade[Trade @ Benchmark]
-  Trade --> Post[STP & Performance Reporting]```
-
----
+  CP --> FIX[Fixing Price]
+  FIX --> TRADE[Trade at Benchmark]
+  TRADE --> REPORT[Reporting]
+```
 
 ## 11. Competitive Trading
 Multiple LPs compete to quote; trader selects the best price.
 
 ```mermaid
 flowchart LR
-  Trader --> RFQ[RFQ Request]
-  RFQ --> LP1[LP #1]
-  RFQ --> LP2[LP #2]
-  RFQ --> LP3[LP #3]
-  LP1 & LP2 & LP3 --> Quotes[Executable Quotes]
-  Quotes --> Decision{Best Price / Criteria}
-  Decision --> Execute[Trade]```
-
----
+  TRADER --> RFQ[RFQ Request]
+  RFQ --> LP1[LP 1]
+  RFQ --> LP2[LP 2]
+  RFQ --> LP3[LP 3]
+  LP1 --> DECISION{Decision}
+  LP2 --> DECISION
+  LP3 --> DECISION
+  DECISION --> EXEC[Execute Trade]
+```
 
 ## 12. Portfolio Trading
-Execute a **set of trades** as part of a portfolio-wide optimization (netting offsets, sequencing orders, minimizing costs).
+Execute a **set of trades** as part of a portfolio-wide optimization.
 
 ```mermaid
 flowchart LR
-  Port[Portfolio Targets] --> Optimizer[Portfolio Optimizer]
-  Optimizer --> Netting[Netting & Offsets]
-  Optimizer --> Schedule[Execution Schedule]
-  Schedule --> Venues[(Venues/LPs/Algos)]
-  Venues --> Blotter[Consolidated Blotter & Metrics]```
-
----
+  PORT[Portfolio Targets] --> OPT[Optimizer]
+  OPT --> NET[Netting]
+  OPT --> SCHED[Execution Schedule]
+  SCHED --> VENUES[(Venues)]
+  VENUES --> BLOTTER[Consolidated Blotter]
+```
 
 ## 13. RFQ Trading
 **Request for Quote (RFQ)**: solicit quotes for a specific ticket; accept the best.
 
 ```mermaid
 flowchart LR
-  Trader --> Spec[Define Ticket (Pair, Notional, Date)]
-  Spec --> Send[Send RFQ]
-  Send --> LPs{Counterparties}
-  LPs --> Replies[Quotes + Timeouts]
-  Replies --> Choose{Accept/Reject}
-  Choose --|Accept|--> Execute[Execute Trade]
-  Choose --|Reject|--> End[End / Re-quote]```
-
----
+  TRADER --> SPEC[Ticket Spec]
+  SPEC --> SEND[Send RFQ]
+  SEND --> LPS{Counterparties}
+  LPS --> REPLIES[Quotes]
+  REPLIES --> CHOOSE{Accept or Reject}
+  CHOOSE --> EXEC[Execute]
+```
 
 ## 14. RFS Trading
-**Request for Stream (RFS)**: counterparty streams updating executable prices for a defined time/size; trader can take multiple clips.
+**Request for Stream (RFS)**: counterparty streams updating executable prices for a defined time/size.
 
 ```mermaid
 flowchart LR
-  Trader --> RFSReq[RFS Request (Terms/Window)]
-  RFSReq --> LP[Designated LP(s)]
-  LP --> Stream[Live Executable Stream]
-  Stream --|Multiple Fills|--> Trader
-  Stream -. Expiry .-> End[(Session Ends)]```
-
----
+  TRADER --> RFSREQ[RFS Request]
+  RFSREQ --> LP[Liquidity Provider]
+  LP --> STREAM[Executable Stream]
+  STREAM --> TRADER
+  STREAM --> END[(Session End)]
+```
 
 ## 15. RFS Multivalue Date Trading
-RFS variant enabling **multiple value dates** within the same streaming session (spot + various forwards).
+RFS variant enabling **multiple value dates** within the same streaming session.
 
 ```mermaid
 flowchart LR
-  Trader --> RFSReq[RFS Request: Pairs, Notional, Dates[]]
-  RFSReq --> LP[LP Stream Engine]
-  LP --> Streams[Streams per Value Date]
-  Streams --> Fill1[Trade Spot @ t0]
-  Streams --> Fill2[Trade Fwd1 @ t+30]
-  Streams --> Fill3[Trade Fwd2 @ t+90]
-  Fill1 & Fill2 & Fill3 --> Blotter[Unified Blotter & Allocation]```
+  TRADER --> RFSREQ[RFS Request With Dates]
+  RFSREQ --> LPE[LP Stream Engine]
+  LPE --> STREAMS[Streams Per Value Date]
+  STREAMS --> F1[Spot Trade]
+  STREAMS --> F2[Forward 1]
+  STREAMS --> F3[Forward 2]
+  F1 --> BLOTTER[Blotter]
+  F2 --> BLOTTER
+  F3 --> BLOTTER
+```
 
 ---
 
-### Notes & Best Practices
-- **Pre-trade**: validate credit/limits, check market conditions and liquidity windows.
-- **Execution**: use algorithms or routing rules aligned with your **best execution** policy.
-- **Post-trade**: automate confirmations, allocations, and reconciliation (STP) to reduce operational risk.
-- **Metrics**: track implementation shortfall, benchmark slippage, market impact, and fill rates.
-
+### Notes
+- Keep Mermaid blocks fenced with triple backticks and a blank line before and after each block.
+- Avoid special characters in edge labels; this README omits edge labels for maximum compatibility.
