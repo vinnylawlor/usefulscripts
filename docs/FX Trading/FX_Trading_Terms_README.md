@@ -23,7 +23,11 @@ To maximize GitHub compatibility, diagrams use **simple shapes** and **no edge l
 ---
 
 ## 1. Blotter Session
-A **Blotter Session** is a trading view that shows executed, working, and canceled orders/trades for a trader or desk.
+A **Blotter Session** is a trading view that shows executed, working, and canceled orders/trades for a trader or desk. Refers to a trading interface or system view that displays all executed, pending, and canceled trades for a trader or trading desk within a given session.  
+- Functions as an electronic "trade journal."
+- Includes trade details such as currency pairs, amounts, execution rates, counterparties, timestamps, and settlement dates.
+- Allows traders to monitor live trade activity and manage post-trade actions such as confirmations and allocations.
+- Often integrated with back-office and middle-office systems for compliance and reporting.
 - Real-time monitoring of fills, amendments, cancels.
 - Key fields: pair, side, notional, rate, value date, counterparty, timestamps, status.
 - Integrates with middle/back office for confirmations, allocations, and reporting.
