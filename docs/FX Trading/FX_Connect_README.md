@@ -57,15 +57,15 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-    I[Order Intake<br/>(OMS, API, File, Excel)] --> P[Price Discovery<br/>RFQ, RFS, LoopFX, Algo]
-    P --> R[Risk and Controls<br/>Credit, Limits, AOR Rules]
-    R --> X[Execution<br/>Spot, Forward, Swap, NDF]
-    X --> ER[Execution Report<br/>FIX 8 to OMS]
-    X --> PT[Post-Trade Handoff<br/>TradeNeXus]
-    PT --> M[Match and Confirm<br/>Block and Allocation]
-    M --> S[Settlement<br/>SSIs, SWIFT, Custodian]
-    S --> A[Accounting and GL Posting]
-    A --> C[Compliance, Archive, TCA<br/>BestX, Reporting]
+    I[Order Intake - OMS API File Excel] --> P[Price Discovery - RFQ RFS LoopFX Algo]
+    P --> R[Risk Controls - Credit Limits AOR Rules]
+    R --> X[Execution - Spot Forward Swap NDF]
+    X --> ER[Execution Report - FIX 8 to OMS]
+    X --> PT[Post-Trade Handoff - TradeNeXus]
+    PT --> M[Match Confirm - Block and Allocation]
+    M --> S[Settlement - SSIs SWIFT Custodian]
+    S --> A[Accounting GL Posting]
+    A --> C[Compliance Archive TCA - BestX Reporting]
 ```
 
 ---
