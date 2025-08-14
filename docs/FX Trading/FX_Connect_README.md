@@ -35,20 +35,20 @@ A practical, GitHub-friendly README that captures the FX Connect ecosystem (FX C
 
 ```mermaid
 flowchart TD
-    A[OMS / EMS / TMS / Excel / File Feeds] -->|FIX / API / File| B[FX Connect - Pre-Trade]
-    B --> B1[Order Capture & Staging]
-    B --> B2[Portfolio / Cross-Currency Netting]
-    B --> B3[AOR / Autopilot Rules]
+    A[OMS, EMS, TMS, Excel, File Feeds] -->|FIX, API, File| B[FX Connect - Pre-Trade]
+    B --> B1[Order Capture and Staging]
+    B --> B2[Portfolio and Cross-Currency Netting]
+    B --> B3[AOR and Autopilot Rules]
     B --> C[FX Connect - Execution]
-    C --> C1[RFQ / RFS / Algo / Benchmark / LoopFX]
+    C --> C1[RFQ, RFS, Algo, Benchmark, LoopFX]
     C --> D[Execution Reports back to OMS]
     C --> E[TradeNeXus - Post-Trade]
-    E --> E1[Matching & Confirmations]
-    E --> E2[SSI Management & SWIFT Messaging]
-    E --> E3[Exception Mgmt & Status Reporting]
+    E --> E1[Matching and Confirmations]
+    E --> E2[SSI Management and SWIFT Messaging]
+    E --> E3[Exception Mgmt and Status Reporting]
     E --> F1[Custodian via SWIFT]
-    E --> F2[Accounting / GL (API / File)]
-    E --> F3[Archive / Regulatory / TCA]
+    E --> F2[Accounting and GL - API or File]
+    E --> F3[Archive, Regulatory, TCA]
 ```
 
 ---
@@ -57,15 +57,15 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-    I[Order Intake\n(OMS / API / File / Excel)] --> P[Price Discovery\nRFQ / RFS / LoopFX / Algo]
-    P --> R[Risk & Controls\nCredit / Limits / AOR Rules]
-    R --> X[Execution\nSpot / Fwd / Swap / NDF]
-    X --> ER[Execution Report\nFIX 8 to OMS]
-    X --> PT[Post-Trade Handoff\nTradeNeXus]
-    PT --> M[Match & Confirm\nBlock and Alloc]
-    M --> S[Settlement\nSSIs / SWIFT / Custodian]
-    S --> A[Accounting / GL Posting]
-    A --> C[Compliance / Archive / TCA\nBestX / Reporting]
+    I[Order Intake<br/>(OMS, API, File, Excel)] --> P[Price Discovery<br/>RFQ, RFS, LoopFX, Algo]
+    P --> R[Risk and Controls<br/>Credit, Limits, AOR Rules]
+    R --> X[Execution<br/>Spot, Forward, Swap, NDF]
+    X --> ER[Execution Report<br/>FIX 8 to OMS]
+    X --> PT[Post-Trade Handoff<br/>TradeNeXus]
+    PT --> M[Match and Confirm<br/>Block and Allocation]
+    M --> S[Settlement<br/>SSIs, SWIFT, Custodian]
+    S --> A[Accounting and GL Posting]
+    A --> C[Compliance, Archive, TCA<br/>BestX, Reporting]
 ```
 
 ---
