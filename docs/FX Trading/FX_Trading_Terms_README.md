@@ -19,6 +19,7 @@ To maximize GitHub compatibility, diagrams use **simple shapes** and **no edge l
 - [RFQ Trading](#13-rfq-trading)
 - [RFS Trading](#14-rfs-trading)
 - [RFS Multivalue Date Trading](#15-rfs-multivalue-date-trading)
+- [FX Trading Glossary](#fx-trading-glossary)
 
 ---
 
@@ -273,7 +274,7 @@ flowchart LR
 
 ---
 
-# FX Trading Glossary
+## FX Trading Glossary
 
 | Term / Acronym | Meaning |
 | --- | --- |
