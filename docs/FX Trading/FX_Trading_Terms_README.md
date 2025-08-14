@@ -31,13 +31,12 @@ A **Blotter Session** is a trading view that shows executed, working, and cancel
 
 ```mermaid
 flowchart LR
-  T(Trader) -->|Executes order| OMS[Order Mgmt System]
-  OMS -->|Sends| EMS[Execution Mgmt / Venues]
-  EMS -->|Fills| OMS
-  OMS -->|Updates| Blotter[Blotter UI]
-  Blotter -->|Post-trade| BO[Middle/Back Office]
-  BO -->|Confirms/Allocates| Blotter
-```
+  T(Trader) --|Executes order|--> OMS[Order Mgmt System]
+  OMS --|Sends|--> EMS[Execution Mgmt / Venues]
+  EMS --|Fills|--> OMS
+  OMS --|Updates|--> Blotter[Blotter UI]
+  Blotter --|Post-trade|--> BO[Middle/Back Office]
+  BO --|Confirms/Allocates|--> Blotter```
 
 ---
 
@@ -48,12 +47,11 @@ A **Block Session** enables execution of large FX tickets (blocks) in a single o
 
 ```mermaid
 flowchart LR
-  PM(Portfolio Manager) -->|Large Instruction| Trader
-  Trader -->|Initiates Block| Platform[Block-Capable Platform]
-  Platform -->|Negotiates| LPs{Liquidity Providers}
-  LPs -->|Block Quote(s)| Platform
-  Platform -->|Execute Best| Settlement[STP to Middle/Back Office]
-```
+  PM(Portfolio Manager) --|Large Instruction|--> Trader
+  Trader --|Initiates Block|--> Platform[Block-Capable Platform]
+  Platform --|Negotiates|--> LPs{Liquidity Providers}
+  LPs --|Block Quotes|--> Platform
+  Platform --|Execute Best|--> Settlement[STP to Middle/Back Office]```
 
 ---
 
@@ -69,8 +67,7 @@ flowchart LR
   end
   B1 <---> B2
   UI --> OMS
-  OMS --> Venues[(Venues / LPs)]
-```
+  OMS --> Venues[(Venues / LPs)]```
 
 ---
 
@@ -79,14 +76,13 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-  Trader -->|Parent Order| Algo[Algo Strategy (TWAP/VWAP/POV)]
-  Algo -->|Slices| Child1((Child Order n))
-  Algo -->|Slices| Child2((Child Order n+1))
+  Trader --|Parent Order|--> Algo[Algo Strategy (TWAP/VWAP/POV)]
+  Algo --|Slices|--> Child1((Child Order n))
+  Algo --|Slices|--> Child2((Child Order n+1))
   Child1 --> Venues[(ECNs/LPs)]
   Child2 --> Venues
-  Venues -->|Fills| Algo
-  Algo -->|Metrics/Slippage| Blotter
-```
+  Venues --|Fills|--> Algo
+  Algo --|Metrics/Slippage|--> Blotter```
 
 **Key controls**: participation cap, max spread, min quote size, time window, benchmark target.
 
@@ -103,8 +99,7 @@ flowchart LR
   Parent --> Slice3[Slice #3]
   Slice1 --> Venue1
   Slice2 --> Venue2
-  Slice3 --> Venue3
-```
+  Slice3 --> Venue3```
 
 ---
 
@@ -114,12 +109,11 @@ flowchart LR
 ```mermaid
 flowchart LR
   Fill[Executed Fill] --> AllocEngine[Allocation Engine]
-  AllocEngine -->|Rules/Percentages| A1[Fund A]
+  AllocEngine --|Rules/Percentages|--> A1[Fund A]
   AllocEngine --> A2[Fund B]
   AllocEngine --> A3[Fund C]
   A1 & A2 & A3 --> Books[Books & Records]
-  Books --> Confirms[Confirmations & Statements]
-```
+  Books --> Confirms[Confirmations & Statements]```
 
 ---
 
@@ -129,12 +123,11 @@ An **Automated Order Router (AOR)** routes orders to venues using rules and real
 ```mermaid
 flowchart LR
   OMS --> AOR[Automated Order Router]
-  AOR -->|Check| Credit[Credit/Limit Check]
-  AOR -->|Select| Policy[Routing Policy (Price, Liquidity, Latency)]
-  Policy -->|Route| V1[(LP/ECN #1)]
-  Policy -->|Route| V2[(LP/ECN #2)]
-  V1 & V2 -->|Fills/Rejects| OMS
-```
+  AOR --|Check|--> Credit[Credit/Limit Check]
+  AOR --|Select|--> Policy[Routing Policy (Price, Liquidity, Latency)]
+  Policy --|Route|--> V1[(LP/ECN #1)]
+  Policy --|Route|--> V2[(LP/ECN #2)]
+  V1 & V2 --|Fills/Rejects|--> OMS```
 
 ---
 
@@ -146,8 +139,7 @@ flowchart LR
   PM --> Basket[Basket Orders (Multi-CCY)]
   Basket --> Benchmark[Benchmark Window/Method]
   Benchmark --> Execution[Coordinated Execution]
-  Execution --> Attribution[Attribution vs Benchmark]
-```
+  Execution --> Attribution[Attribution vs Benchmark]```
 
 ---
 
@@ -158,8 +150,7 @@ Execute a **basket** with a single **counterparty** to simplify ops and credit.
 flowchart LR
   Basket[Multi-CCY Basket] --> CP[Single Counterparty]
   CP --> Trade[Net/Package Execution]
-  Trade --> Ops[Unified Settlement & Reporting]
-```
+  Trade --> Ops[Unified Settlement & Reporting]```
 
 ---
 
@@ -171,8 +162,7 @@ flowchart LR
   PM --> CP[Benchmark Counterparty]
   CP --> Fix[Fixing/Benchmark Price]
   Fix --> Trade[Trade @ Benchmark]
-  Trade --> Post[STP & Performance Reporting]
-```
+  Trade --> Post[STP & Performance Reporting]```
 
 ---
 
@@ -187,8 +177,7 @@ flowchart LR
   RFQ --> LP3[LP #3]
   LP1 & LP2 & LP3 --> Quotes[Executable Quotes]
   Quotes --> Decision{Best Price / Criteria}
-  Decision --> Execute[Trade]
-```
+  Decision --> Execute[Trade]```
 
 ---
 
@@ -201,8 +190,7 @@ flowchart LR
   Optimizer --> Netting[Netting & Offsets]
   Optimizer --> Schedule[Execution Schedule]
   Schedule --> Venues[(Venues/LPs/Algos)]
-  Venues --> Blotter[Consolidated Blotter & Metrics]
-```
+  Venues --> Blotter[Consolidated Blotter & Metrics]```
 
 ---
 
@@ -216,9 +204,8 @@ flowchart LR
   Send --> LPs{Counterparties}
   LPs --> Replies[Quotes + Timeouts]
   Replies --> Choose{Accept/Reject}
-  Choose -->|Accept| Execute[Execute Trade]
-  Choose -->|Reject| End[End / Re-quote]
-```
+  Choose --|Accept|--> Execute[Execute Trade]
+  Choose --|Reject|--> End[End / Re-quote]```
 
 ---
 
@@ -230,9 +217,8 @@ flowchart LR
   Trader --> RFSReq[RFS Request (Terms/Window)]
   RFSReq --> LP[Designated LP(s)]
   LP --> Stream[Live Executable Stream]
-  Stream -->|Multiple Fills| Trader
-  Stream -. Expiry .-> End[(Session Ends)]
-```
+  Stream --|Multiple Fills|--> Trader
+  Stream -. Expiry .-> End[(Session Ends)]```
 
 ---
 
@@ -247,8 +233,7 @@ flowchart LR
   Streams --> Fill1[Trade Spot @ t0]
   Streams --> Fill2[Trade Fwd1 @ t+30]
   Streams --> Fill3[Trade Fwd2 @ t+90]
-  Fill1 & Fill2 & Fill3 --> Blotter[Unified Blotter & Allocation]
-```
+  Fill1 & Fill2 & Fill3 --> Blotter[Unified Blotter & Allocation]```
 
 ---
 
