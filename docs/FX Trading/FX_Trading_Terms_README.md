@@ -273,3 +273,32 @@ flowchart LR
 
 ---
 
+# FX Trading Glossary
+
+| Term / Acronym | Meaning |
+| --- | --- |
+| AOR | Automated Order Router – System for directing orders to the best venue based on rules. |
+| Algo Trading | Algorithmic Trading – Execution using pre-programmed strategies to optimize fills. |
+| Allocation | Process of assigning executed trade portions to specific accounts or funds. |
+| Basket Benchmark | Execution of multiple trades as a basket against a defined benchmark rate. |
+| Basket CP | Basket Counterparty – Executing a basket trade with a single counterparty. |
+| Benchmark CP | Benchmark Counterparty – Executing trades at benchmark rates with a specific counterparty. |
+| Blotter Session | Trade monitoring session showing executed, working, and canceled trades. |
+| Block Session | Trading session for executing large trades (blocks) in a single transaction. |
+| CP | Counterparty – The institution or entity on the other side of a trade. |
+| ECN | Electronic Communication Network – Electronic system that matches buy and sell orders. |
+| EMS | Execution Management System – Platform for routing and executing orders. |
+| Fix | Market fixing rate, often used as a benchmark (e.g., WM/Reuters 4pm). |
+| IS | Implementation Shortfall – Difference between decision price and execution price. |
+| KPI | Key Performance Indicator – Metric for measuring execution or operational performance. |
+| Last Look | Liquidity provider practice of checking order validity before execution, may reject. |
+| LP | Liquidity Provider – Bank or institution providing tradable prices. |
+| OMS | Order Management System – System for managing and tracking orders. |
+| POV | Participation of Volume – Algo that participates in market volume at a set rate. |
+| RFQ | Request for Quote – Workflow where trader requests a price for a specific trade. |
+| RFS | Request for Stream – Workflow where trader requests continuous executable prices. |
+| RFS Multivalue Date | Streaming workflow allowing trades with multiple settlement dates. |
+| Slice Trading | Breaking a large order into smaller slices to reduce market impact. |
+| STP | Straight-Through Processing – Automated, touchless post-trade processing. |
+| TWAP | Time-Weighted Average Price – Execution strategy spreading trades evenly over time. |
+| VWAP | Volume-Weighted Average Price – Execution strategy weighted by traded volume. |
